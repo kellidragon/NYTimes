@@ -12,19 +12,10 @@ $(document).ready(function () {
         search = $("#search").val();
         var startDate = $("#startYear").val() + "0101";
         var endDate = $("#endYear").val() + "1231";
-        records = $("#records").val()
+        records = $("#records").val();
         url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?fq=" + search + "&facet_field=day_of_week&facet=true&begin_date=" + startDate + "&end_date=" + endDate + "&api-key=cnlzBSEEjBmVFiePSVqxmCZK5ys2q1C9";
     };
 
-
-    $("#search").on("click", function () {
-
-        ajaxCall();
-    })
-
-    $("#clear").on("click", function () {
-        $("#id").empty();
-    })
 
 
     //function ajax call
@@ -54,6 +45,16 @@ $(document).ready(function () {
 
         });
     }
+
+    //onclick calls for stuff
+    $("#btnsearch").on("click", function () {
+
+        ajaxCall();
+    })
+
+    $("#btnclear").on("click", function () {
+        $("#id").empty();
+    })
 
 
 
