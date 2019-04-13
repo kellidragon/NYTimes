@@ -10,9 +10,22 @@ $(document).ready(function () {
     //function build url
     function buildURL() {
         search = $("#search").val();
-        var startDate = $("#startYear").val() + "0101";
-        var endDate = $("#endYear").val() + "1231";
-        records = $("#records").val();
+
+        var startYear = 2019;
+        var endYear = 2019;
+
+        if ($("#startYear").val()) {
+            startYear = $("#startyear").val();
+        }
+
+        if ($("#endYear").val()) {
+            endYear = $("#endyear").val();;
+        }
+
+
+        var startDate = startYear + "0101";
+        var endDate = endYear + "1231";
+        records = $("#nmbrecords").val();
         url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?fq=" + search + "&facet_field=day_of_week&facet=true&begin_date=" + startDate + "&end_date=" + endDate + "&api-key=cnlzBSEEjBmVFiePSVqxmCZK5ys2q1C9";
     };
 
@@ -32,13 +45,15 @@ $(document).ready(function () {
                 var head;
                 var snip;
                 var link;
+
                 head = $("<h2>").html(response.response.docs[i].headline.main);
                 console.log(head);
                 snip = $("<p>").html(response.response.docs[i].snippet);
                 link = $("<a>").html(response.response.docs[i].web_url).attr("href", response.response.docs[i].web_url);
+
                 var div = $("<div>");
                 div.append(head, snip, link);
-                $("#id").append(div);
+                $("body").append(div);
 
             }
 
@@ -47,12 +62,12 @@ $(document).ready(function () {
     }
 
     //onclick calls for stuff
-    $("#btnsearch").on("click", function () {
+    $("#btn-search").on("click", function () {
 
         ajaxCall();
     })
 
-    $("#btnclear").on("click", function () {
+    $("#btn-clear").on("click", function () {
         $("#id").empty();
     })
 
@@ -60,9 +75,3 @@ $(document).ready(function () {
 
 
 });
-
-
-
-
-
-
