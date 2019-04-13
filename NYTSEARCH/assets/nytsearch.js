@@ -49,7 +49,7 @@ $(document).ready(function () {
                 head = $("<h2>").html(response.response.docs[i].headline.main);
                 console.log(head);
                 snip = $("<p>").html(response.response.docs[i].snippet);
-                link = $("<a>").html(response.response.docs[i].web_url).attr("href", response.response.docs[i].web_url);
+                link = $("<a>").html("Read article here").attr("href", response.response.docs[i].web_url);
 
                 var div = $("<div>");
                 div.append(head, snip, link);
