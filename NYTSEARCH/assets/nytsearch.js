@@ -26,7 +26,7 @@ $(document).ready(function () {
         var startDate = startYear + "0101";
         var endDate = endYear + "1231";
         records = $("#nmbrecords").val();
-        url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?fq=" + search + "&facet_field=day_of_week&facet=true&begin_date=" + startDate + "&end_date=" + endDate + "&api-key=cnlzBSEEjBmVFiePSVqxmCZK5ys2q1C9";
+        url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + search.replace(" ", "+") + "&facet_field=day_of_week&facet=true&begin_date=" + startDate + "&end_date=" + endDate + "&api-key=cnlzBSEEjBmVFiePSVqxmCZK5ys2q1C9";
     };
 
 
@@ -38,22 +38,46 @@ $(document).ready(function () {
             url: url,
             method: "GET"
         }).then(function (response) {
+
             console.log(response);
 
+            $("#articles").empty();
+
             for (let i = 0; i < records; i++) {
-                console.log("start");
+
                 var head;
                 var snip;
                 var link;
 
-                head = $("<h2>").html(response.response.docs[i].headline.main);
-                console.log(head);
-                snip = $("<p>").html(response.response.docs[i].snippet);
-                link = $("<a>").html("Read article here").attr("href", response.response.docs[i].web_url);
+                var img = $("<img>");
+                var imgUrl = "https://static01.nyt.com/" + response.response.docs[i].multimedia[0].url;
+                img.attr("src", imgUrl);
+                img.attr("class", "card-img-top w-50");
 
-                var div = $("<div>");
-                div.append(head, snip, link);
-                $("body").append(div);
+                head = $("<h2>").html(response.response.docs[i].headline.main);
+                head.attr("class", "card-title");
+
+
+                snip = $("<p>").html(response.response.docs[i].snippet);
+                snip.attr("class", "card-text");
+
+                link = $("<a>").html("Read article here").attr("href", response.response.docs[i].web_url);
+                link.attr("class", "btn btn-primary");
+                link.attr("target", "_blank");
+
+                var cardBody = $("<div>");
+
+                cardBody.attr("class", "card-body");
+
+                cardBody.append(head, snip, link);
+
+                var card = $("<div>");
+                card.attr("class", "card mt-3");
+
+                card.append(img);
+                card.append(cardBody);
+
+                $("#articles").append(card);
 
             }
 
@@ -63,12 +87,11 @@ $(document).ready(function () {
 
     //onclick calls for stuff
     $("#btn-search").on("click", function () {
-
         ajaxCall();
     })
 
     $("#btn-clear").on("click", function () {
-        $("#id").empty();
+        $("#articles").empty();
     })
 
 
